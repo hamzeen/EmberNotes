@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Ember Notes</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+  <script type="text/x-handlebars" data-template-name="todos">
+  <section id="todoapp">
+    <header id="header">
+      <h1>Notes</h1>
+      {{input type="text" id="new-todo" placeholder="Who's next.."
+              value=newTitle action="createTodo"}}
+    </header>
+
+      <section id="main">
+        <ul id="todo-list">
+          {{#each todo in model itemController="todo"}}
+            <li {{bind-attr class="todo.isCompleted:completed todo.isEditing:editing"}}>
+              {{#if todo.isEditing}}
+
+                {{input class="edit" value=todo.title
+                focus-out="doneEditing" insert-newline="doneEditing" escape-press="cancelEditing"}}
+              {{else}}
+
+                {{input type="checkbox" checked=todo.isCompleted class="toggle"}}
+                <label {{action "editTodo" on="doubleClick"}}>{{todo.title}}</label>
+                <button {{action "removeTodo"}} class="destroy"></button>
+
+              {{/if}}
+            </li>
+          {{/each}}
+        </ul>
+
+        <input type="checkbox" id="toggle-all">
+      </section>
+
+      <footer id="footer">
+        <span id="todo-count">
+          <strong>{{remaining}}</strong> {{inflection}} left</span>
+        <ul id="filters">
+          <li>
+            <a href="all" class="selected">All</a>
+          </li>
+          <!--<li>
+            <a href="active">Active</a>
+          </li><li>
+            <a href="completed">Completed</a>
+          </li>//-->
+        </ul>
+
+        <button id="clear-completed">
+          Clear completed (1)
+        </button>
+      </footer>
+  </section>
+
+  <footer id="info">
+    <p>Double-click to edit a todo</p>
+  </footer>
+  </script>
+
+  <script src="lib/jquery.min.js"></script>
+  <script src="lib/handlebars.js"></script>
+  <script src="lib/ember.js"></script>
+  <script src="lib/ember-data.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
